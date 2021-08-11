@@ -97,7 +97,7 @@ of the form `auto-generated-name.my-svc.my-namespace.svc.cluster-domain.example`
 
 ### A/AAAA records
 
-In general a pod has the following DNS resolution:
+In general all pods have the following DNS fully qualified domain name (FQDN):
 
 `pod-ip-address.my-namespace.pod.cluster-domain.example`.
 
@@ -106,8 +106,8 @@ and the domain name for your cluster is `cluster.local`, then the Pod has a DNS 
 
 `172-17-0-3.default.pod.cluster.local`.
 
-Any pods created by a Deployment or DaemonSet exposed by a Service have the
-following DNS resolution available:
+Any pods created by a Deployment or DaemonSet exposed by a Service also have the
+following FQDN available:
 
 `pod-ip-address.deployment-name.my-namespace.svc.cluster-domain.example`.
 
@@ -121,9 +121,10 @@ the hostname of the pod. For example, given a Pod with `hostname` set to
 "`my-host`", the Pod will have its hostname set to "`my-host`".
 
 The Pod spec also has an optional `subdomain` field which can be used to specify
-its subdomain. For example, a Pod with `hostname` set to "`foo`", and `subdomain`
-set to "`bar`", in namespace "`my-namespace`", will have the fully qualified
-domain name (FQDN) "`foo.bar.my-namespace.svc.cluster-domain.example`".
+its subdomain. When a Pod has **both** `hostname` and `subdomain` it is reachable 
+at an additional FQDN based on the these values. For example, a Pod with `hostname` 
+set to "`foo`", and `subdomain` set to "`bar`", in namespace  "`my-namespace`", will 
+have the FQDN "`foo.bar.my-namespace.svc.cluster-domain.example`".
 
 Example:
 
@@ -173,16 +174,6 @@ spec:
       - "3600"
     name: busybox
 ```
-
-If there exists a headless service in the same namespace as the pod and with
-the same name as the subdomain, the cluster's DNS Server also returns an A or AAAA
-record for the Pod's fully qualified hostname.
-For example, given a Pod with the hostname set to "`busybox-1`" and the subdomain set to
-"`default-subdomain`", and a headless Service named "`default-subdomain`" in
-the same namespace, the pod will see its own FQDN as
-"`busybox-1.default-subdomain.my-namespace.svc.cluster-domain.example`". DNS serves an
-A or AAAA record at that name, pointing to the Pod's IP. Both pods "`busybox1`" and
-"`busybox2`" can have their distinct A or AAAA records.
 
 The Endpoints object can specify the `hostname` for any endpoint addresses,
 along with its IP.
