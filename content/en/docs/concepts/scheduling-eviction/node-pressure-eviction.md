@@ -4,7 +4,9 @@ content_type: concept
 weight: 60
 ---
 
-{{<glossary_definition term_id="node-pressure-eviction" length="short">}}</br>
+{{<glossary_definition term_id="node-pressure-eviction" length="short">}}. 
+Node-pressure eviction is not the same as 
+[API-initiated eviction](/docs/concepts/scheduling-eviction/api-eviction/).
 
 The {{<glossary_tooltip term_id="kubelet" text="kubelet">}} monitors resources 
 like CPU, memory, disk space, and filesystem inodes on your cluster's nodes. 
@@ -13,10 +15,7 @@ kubelet can proactively fail one or more pods on the node to reclaim resources
 and prevent starvation. 
 
 During a node-pressure eviction, the kubelet sets the `PodPhase` for the
-selected pods to `Failed`. This terminates the pods. 
-
-Node-pressure eviction is not the same as 
-[API-initiated eviction](/docs/concepts/scheduling-eviction/api-eviction/).
+selected pods to `Failed` which terminates the pods. 
 
 The kubelet does not respect your configured `PodDisruptionBudget` or the pod's
 `terminationGracePeriodSeconds`. If you use [soft eviction thresholds](#soft-eviction-thresholds),
