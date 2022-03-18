@@ -18,7 +18,7 @@ and migration.
 Kubernetes imposes the following fundamental requirements on any networking
 implementation (barring any intentional network segmentation policies):
 
-   * pods on a [node](/docs/concepts/architecture/nodes/) can communicate with all pods on all nodes without NAT
+   * pods can communicate with all pods on all [nodes](/docs/concepts/architecture/nodes/) without NAT
    * agents on a node (e.g. system daemons, kubelet) can communicate with all
      pods on that node
 
